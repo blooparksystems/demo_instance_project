@@ -5,6 +5,7 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
 class HrAttendanceOvertime(models.Model):
@@ -79,6 +80,12 @@ class HrAttendanceOvertime(models.Model):
             date_from = record.date
             employee = record.employee_id
             resource_calendar = record.employee_id.resource_calendar_id
+            if not resource_calendar:
+                raise UserError(
+                    "Working Hours are not set for %s "
+                    % employee.name
+                )
+
             dt_from = datetime.combine(date_from, datetime.min.time())
             dt_to = datetime.combine(date_from, datetime.max.time())
             work_data = resource_calendar.get_work_duration_data(
