@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_edit_time_sheet" model="res.groups">
+            <field name="name">Can edit TimeSheet</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_cancel_extra_hours" model="res.groups">
+            <field name="name">Can refuse approved extra hours requests</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+
+</odoo>
