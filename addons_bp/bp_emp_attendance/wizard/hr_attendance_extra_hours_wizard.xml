@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_attendance_extra_hours_form_view" model="ir.ui.view">
+        <field name="name">hr.attendance.extra.hours.form.view</field>
+        <field name="model">hr.attendance.extra.hours</field>
+        <field name="arch" type="xml">
+            <form>
+                <label for="employee_id"/>
+                <div class="oe_title">
+                    <h2>
+                        <field name="employee_id" readonly="1"/>
+                    </h2>
+                </div>
+                <group>
+                    <group>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="extra_hours" widget="float_time"/>
+                    </group>
+                </group>
+                <div name="note" class="text-warning">
+                    ** If there is any record hours added manually on this day, you are going to replace it.
+                </div>
+                <footer>
+                    <button type="object" name="action_confirm" string="Confirm" class="oe_highlight"/>
+                    <button special="cancel" string="Cancel" class="oe_link"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
