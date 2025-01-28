@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_attendance_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.tree</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <button type="object"
+                        name="action_recompute_worked_hours"
+                        string="Recompute"
+                        icon="fa-rotate-left"
+                        class="oe_link"/>
+            </xpath>
+
+            <xpath expr="//field[@name='worked_hours']" position="attributes">
+                <attribute name="string">PWT (Worked Hours)</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='worked_hours']" position="before">
+                <field name="net_working_time" optional="show" widget="float_time" readonly="1"/>
+                <field name="employee_break_time" optional="show" widget="float_time" readonly="1"/>
+                <!-- No Need to show it in view as, this field us just used to add/deduct hours -->
+                <!-- <field name="employee_extra_hours" optional="show" widget="float_time" readonly="1"/> -->
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
