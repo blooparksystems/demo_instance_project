@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_public_view_form_view" model="ir.ui.view">
+        <field name="name">hr.employee.public.employee.view.form</field>
+        <field name="model">hr.employee.public</field>
+        <field name="inherit_id" ref="hr.hr_employee_public_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <field name="is_employee_officer" invisible="1"/>
+                <button name="%(hr_attendance.hr_attendance_overtime_action)d"
+                        class="oe_stat_button"
+                        icon="fa-history"
+                        type="action"
+                        invisible="not is_employee_officer"
+                        context="{'search_default_employee_id': active_id}">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value text-success" invisible="total_overtime &lt; 0">
+                            <field name="total_overtime" widget="float_time"/>
+                        </span>
+                        <span class="o_stat_value text-danger" invisible="total_overtime &gt;= 0">
+                            <field name="total_overtime" widget="float_time"/>
+                        </span>
+                        <span class="o_stat_text">Extra Hours</span>
+                    </div>
+                </button>
+                <button name="hr_attendance_report_action"
+                        class="oe_stat_button"
+                        icon="fa-clipboard"
+                        string="Att. Report"
+                        invisible="not is_employee_officer"
+                        type="object">
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_employee_view_form_hr" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.hr</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@id='o_work_employee_main']/group[@name='managers']" position="inside">
+                <field name="check_daily_attendance" widget="boolean_toggle"/>
+                <field name="send_missing_attendance_mail" widget="boolean_toggle"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Overtime">
+                    <field name="overtime_ids" readonly="1"/>
+
+                    <group col="12" class="oe_invoice_lines_tab">
+                        <group colspan="8"/>
+                        <group colspan="4">
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="total_overtime" widget="float_time"/>
+                            </group>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button type="object"
+                        name="action_open_extra_hours_wizard"
+                        string="Add/Deduct Extra Hours"
+                        groups="hr.group_hr_manager"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
