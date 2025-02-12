@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+bp_emp_attendance.access_hr_attendance_extra_hours,access_hr_attendance_extra_hours,bp_emp_attendance.model_hr_attendance_extra_hours,base.group_user,1,1,1,1
+bp_emp_attendance.access_custom_hr_attendance_report,access_custom_hr_attendance_report,bp_emp_attendance.model_custom_hr_attendance_report,base.group_user,1,1,1,1

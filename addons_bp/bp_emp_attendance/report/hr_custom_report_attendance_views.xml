@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <data noupdate="0">
+        <record id="hr_custom_report_attendance_tree" model="ir.ui.view">
+            <field name="name">custom.hr.attendance.report.tree</field>
+            <field name="model">custom.hr.attendance.report</field>
+            <field name="arch" type="xml">
+                <tree string="Employees Report"
+                      default_order="check_in asc"
+                      create='false'
+                      edit='false'
+                      delete='false'>
+                    <field name="employee_id"/>
+                    <field name="check_in"/>
+                    <field name="worked_hours" sum="Total Attendance Hours" widget="float_time"/>
+                    <field name="overtime_hours" sum="Total Extra Hours" widget="float_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--## Form ##-->
+        <record id="hr_custom_report_attendance_form" model="ir.ui.view">
+            <field name="name">custom.hr.attendance.report.form</field>
+            <field name="model">custom.hr.attendance.report</field>
+            <field name="arch" type="xml">
+                <form string="Employees Report" create='false' edit='false' delete="false">
+                    <sheet>
+                        <group>
+                            <field name="employee_id"/>
+                        </group>
+                        <group col="4">
+                            <field name="check_in"/>
+                            <field name="worked_hours" sum="Total Attendance Hours" widget="float_time"/>
+                            <field name="overtime_hours" sum="Total Extra Hours" widget="float_time"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_custom_report_attendance_pivot" model="ir.ui.view">
+            <field name="name">custom.hr.attendance.report.pivot</field>
+            <field name="model">custom.hr.attendance.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Employees Report" sample="1">
+                    <field name="employee_id" type="row"/>
+                    <field name="check_in" interval="month" type="row"/>
+                    <field name="worked_hours" type="measure" widget="float_time"/>
+                    <field name="overtime_hours" type="measure" widget="float_time"/>
+                </pivot>
+            </field>
+        </record>
+
+
+        <!--## Search ##-->
+        <record id="hr_custom_report_attendance_search" model="ir.ui.view">
+            <field name="name">custom.hr.attendance.report.search</field>
+            <field name="model">custom.hr.attendance.report</field>
+            <field name="arch" type="xml">
+                <search string="Group by">
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <separator/>
+                    <field name="check_in"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Employee" name="group_employee" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Department" name="group_department" context="{'group_by': 'department_id'}"/>
+                        <filter name="group_date_day" string="Date" context="{'group_by':'check_in:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--## Action ##-->
+        <record id="hr_custom_report_attendance_action" model="ir.actions.act_window">
+            <field name="name">Employees Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">custom.hr.attendance.report</field>
+            <field name="view_mode">pivot,tree</field>
+        </record>
+
+        <record id="hr_custom_own_report_attendance_action" model="ir.actions.act_window">
+            <field name="name">Employee Attendance Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">custom.hr.attendance.report</field>
+            <field name="view_mode">pivot,tree</field>
+            <field name="domain">[('employee_id.user_id','=',uid)]</field>
+        </record>
+
+        <menuitem name="Reports"
+                  parent="hr_attendance.menu_hr_attendance_root"
+                  id="hr_custom_report_menuitem"
+                  sequence="31">
+            <menuitem id="custom_employee_report_menu"
+                      name="Employees Report"
+                      sequence="2"
+                      groups="hr_attendance.group_hr_attendance_officer"
+                      action="bp_emp_attendance.hr_custom_report_attendance_action"/>
+        </menuitem>
+
+        <record model="ir.ui.menu" id="hr_attendance.menu_hr_attendance_reporting">
+            <field name="name">Attendance Analysis</field>
+            <field name="sequence">1</field>
+            <field name="parent_id" ref="bp_emp_attendance.hr_custom_report_menuitem"/>
+        </record>
+
+    </data>
+
+</odoo>
